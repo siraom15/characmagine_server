@@ -19,7 +19,6 @@ export class UserService {
     private userModel: Model<User>,
     private readonly mailService: MailService,
   ) {
-    console.log('userModel', userModel);
   }
 
   async findAll(): Promise<User[]> {
@@ -104,6 +103,9 @@ export class UserService {
     return {
       message: 'Password reset successfully',
     };
+  }
 
+  async me(id: string): Promise<User> {
+    return this.userModel.findById(id).select({ password: 0, __v: 0 }).exec();
   }
 }

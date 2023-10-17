@@ -7,8 +7,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { HealthModule } from './health/health.module';
 import { MailModule } from './mail/mail.module';
-import { CollectionModule } from './collection/collection.module';
 import { ImageAiModule } from './image-ai/image-ai.module';
+import { StoryModule } from './story/story.module';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { ImageAiModule } from './image-ai/image-ai.module';
     AuthModule,
     HealthModule,
     MailModule,
-    CollectionModule,
+    StoryModule,
     ImageAiModule,
   ],
   controllers: [],

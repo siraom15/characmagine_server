@@ -1,3 +1,3 @@
 export const jwtConstants = {
-  secret: 'l},Z^7l7IV', // TODO: Change this to something more secure
+  secret: process.env.JWT_SECRET ?? 'l9akg,Z^7l7IV',
 };

@@ -2,11 +2,12 @@ import mongoose, { Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'src/user/schemas/user.schemas';
 import { Character, CharacterSchema } from './charactor.schema';
+
 @Schema()
-export class Collection extends Document {
+export class Story extends Document {
   _id: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true })
   owner: User;
 
   @Prop({ required: true })
@@ -15,8 +16,8 @@ export class Collection extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ default: process.env.DUMMY_IMG_URL })
-  images: string;
+  @Prop({ default: process.env.DUMMY_IMG_URL ||'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png' })
+  image: string;
 
   @Prop({ type: [CharacterSchema], default: [] })
   characters: Character[];
@@ -28,4 +29,4 @@ export class Collection extends Document {
   updated_at: Date;
 }
 
-export const CollectionSchema = SchemaFactory.createForClass(Collection);
+export const StorySchema = SchemaFactory.createForClass(Story);

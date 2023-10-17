@@ -20,15 +20,22 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgetPasswordDto } from './dto/forget-password.dto';
 
 @ApiTags('users')
-@Controller('api/users')
+@Controller('api/user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @Post()
+  @Post('/signup')
   @Public()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Get('/me')
+  @HttpCode(HttpStatus.OK)
+  async me(@Req() req): Promise<User> {
+    console.log(req.user);
+    return req.user;
   }
 
   @Get()
@@ -38,7 +45,7 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('/:id')
+  @Get('/id/:id')
   @Public()
   @HttpCode(HttpStatus.OK)
   findOne(@Req() request): Promise<User> {
@@ -78,4 +85,6 @@ export class UserController {
   async resetPassword(@Req() req, @Body() resetPasswordDto: ResetPasswordDto): Promise<object> {
     return this.userService.resetPassword(resetPasswordDto);
   }
+
+
 }

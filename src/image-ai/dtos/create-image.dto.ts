@@ -3,7 +3,8 @@ import {
     IsNumber,
     IsOptional,
     IsString,
-    ValidateNested,
+    Max,
+    Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
@@ -17,5 +18,7 @@ export class CreateImageDto {
     @ApiProperty()
     @IsOptional()
     @IsNumber()
+    @Max(100)
+    @Min(0)
     steps: number;
 }

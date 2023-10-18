@@ -10,5 +10,6 @@ import { Story, StorySchema } from './schemas/story.schema';
   ],
   controllers: [StoryController],
   providers: [StoryService],
+  exports: [StoryService],
 })
 export class StoryModule { }

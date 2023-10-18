@@ -78,13 +78,13 @@ export class StoryController {
     }
 
     private checkReadAccess(stories: Story, userId: string | null) {
-        if (!stories.isPublic && stories.owner._id !== userId) {
+        if (!stories.isPublic && stories.owner._id.toString() !== userId) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
     }
 
     private checkUpdateAccess(stories: Story, userId: string) {
-        if (stories.owner._id !== userId) {
+        if (stories.owner._id.toString() !== userId) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
     }

@@ -108,4 +108,8 @@ export class UserService {
   async me(id: string): Promise<User> {
     return this.userModel.findById(id).select({ password: 0, __v: 0 }).exec();
   }
+
+  async userCount(): Promise<number> {
+    return this.userModel.countDocuments().exec();
+  }
 }

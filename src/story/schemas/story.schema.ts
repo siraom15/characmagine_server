@@ -2,12 +2,14 @@ import mongoose, { Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'src/user/schemas/user.schemas';
 import { Character, CharacterSchema } from '../../character/schemas/character.schema';
+import { Type } from 'class-transformer';
 
 @Schema()
 export class Story extends Document {
   _id: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name, required: true })
+  @Type(() => User)
   owner: User;
 
   @Prop({ required: true })
@@ -16,7 +18,7 @@ export class Story extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ default: process.env.DUMMY_IMG_URL ||'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png' })
+  @Prop({ default: process.env.DUMMY_IMG_URL || 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png' })
   image: string;
 
   @Prop({ required: true, default: false })
@@ -25,10 +27,10 @@ export class Story extends Document {
   @Prop({ type: [CharacterSchema], default: [] })
   characters: Character[];
 
-  @Prop({ required: true, default: Date.now() })
+  @Prop({ required: true, default: () => new Date() })
   created_at: Date;
 
-  @Prop({ required: true, default: Date.now() })
+  @Prop({ required: true, default: () => new Date() })
   updated_at: Date;
 }
 

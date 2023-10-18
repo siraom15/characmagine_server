@@ -3,7 +3,7 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { IsOptional, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { CreateCharactorDto } from "./create-charactor";
+import { CreateCharacterDto } from "../../character/dtos/create-character";
 import { CreateStoryDto } from "./create-story";
 
 export class UpdateStoryDto extends PartialType(CreateStoryDto) {
@@ -14,7 +14,7 @@ export class UpdateStoryDto extends PartialType(CreateStoryDto) {
 
     @ApiProperty()
     @IsOptional()
-    @Type(() => CreateCharactorDto)
+    @Type(() => CreateCharacterDto)
     @ValidateNested()
-    characters: CreateCharactorDto[];
+    characters: CreateCharacterDto[];
 }

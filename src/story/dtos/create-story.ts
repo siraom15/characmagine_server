@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsOptional,
   IsString,
 } from 'class-validator';
 
 export class CreateStoryDto {
-  
+
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -20,4 +21,9 @@ export class CreateStoryDto {
   @IsOptional()
   @IsString()
   image: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  isPublic: boolean;
 }

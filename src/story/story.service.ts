@@ -9,13 +9,13 @@ import { UpdateStoryDto } from './dtos/update-story';
 export class StoryService {
     constructor(
         @InjectModel(Story.name)
-        private collectionModel: Model<Story>,
+        private storyModel: Model<Story>,
     ) {
     }
 
     async create(userId: string, createStoryDto: CreateStoryDto): Promise<Story> {
         console.log(userId);
-        const createdCollection = new this.collectionModel({
+        const createdCollection = new this.storyModel({
             owner: userId,
             ...createStoryDto,
         });
@@ -23,18 +23,22 @@ export class StoryService {
     }
 
     async findAll(): Promise<Story[]> {
-        return this.collectionModel.find().exec();
+        return this.storyModel.find().exec();
     }
 
     async findOneById(id: string): Promise<Story> {
-        return this.collectionModel.findById(id).exec();
+        return this.storyModel.findById(id).exec();
     }
 
     async findMyStory(userId: string): Promise<Story[]> {
-        return this.collectionModel.find({ owner: userId }).exec();
+        return this.storyModel.find({ owner: userId }).exec();
+    }
+
+    async findAllPublic(): Promise<Story[]> {
+        return this.storyModel.find({ isPublic: true }).exec();
     }
 
     async update(id: string, updateStoryDto: UpdateStoryDto): Promise<Story> {
-        return await this.collectionModel.findOneAndUpdate({ _id: id }, updateStoryDto, { new: true });
+        return await this.storyModel.findOneAndUpdate({ _id: id }, updateStoryDto, { new: true });
     }
 }

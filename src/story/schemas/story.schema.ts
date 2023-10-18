@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'src/user/schemas/user.schemas';
-import { Character, CharacterSchema } from './charactor.schema';
+import { Character, CharacterSchema } from '../../character/schemas/character.schema';
 
 @Schema()
 export class Story extends Document {
@@ -18,6 +18,9 @@ export class Story extends Document {
 
   @Prop({ default: process.env.DUMMY_IMG_URL ||'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png' })
   image: string;
+
+  @Prop({ required: true, default: false })
+  isPublic: boolean;
 
   @Prop({ type: [CharacterSchema], default: [] })
   characters: Character[];

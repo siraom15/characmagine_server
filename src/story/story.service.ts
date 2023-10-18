@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { CreateStoryDto } from './dtos/create-story';
 import { Story } from './schemas/story.schema';
 import { UpdateStoryDto } from './dtos/update-story';
+import { CreateCharacterDto } from 'src/character/dtos/create-character';
+import { UpdateCharacterDto } from 'src/character/dtos/update-character';
 
 @Injectable()
 export class StoryService {
@@ -40,5 +42,27 @@ export class StoryService {
 
     async update(id: string, updateStoryDto: UpdateStoryDto): Promise<Story> {
         return await this.storyModel.findOneAndUpdate({ _id: id }, updateStoryDto, { new: true });
+    }
+
+    async addCharacterToStory(id: string, createCharacterDto: CreateCharacterDto): Promise<Story> {
+        return await this.storyModel.findOneAndUpdate(
+            { _id: id },
+            { $push: { characters: createCharacterDto } },
+            { new: true });
+    }
+
+    async updateCharacterInStory(id: string, characterId: string, updateCharacterDto: UpdateCharacterDto): Promise<Story> {
+        return await this.storyModel.findOneAndUpdate(
+            { _id: id, 'characters._id': characterId },
+            { $set: { 'characters.$': updateCharacterDto } },
+            { new: true });
+    }
+
+    async deleteCharacterInStory(id: string, characterId: string): Promise<Story> {
+        return await this.storyModel.findOneAndUpdate(
+            { _id: id },
+            { $pull: { characters: { _id: characterId } } },
+            { new: true }
+        );
     }
 }

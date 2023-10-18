@@ -1,0 +1,20 @@
+{
+  "_id": {
+    "$oid": "652d6a943958be21868a169c"
+  },
+  "firstname": "siriwat",
+  "lastname": "jai",
+  "passwordFailedLoginAttempts": 0,
+  "loginDisable": false,
+  "resetPasswordToken": null,
+  "resetPasswordExpires": null,
+  "email": "siriwatjaiyungyuen@gmail.com",
+  "password": "$2b$05$CLvcM52nM01rN1BfHpa9geEzXWjNawLMSPv8/VbO1F9P/gPBmzOcu",
+  "created_at": {
+    "$date": "2023-10-16T16:53:09.483Z"
+  },
+  "updated_at": {
+    "$date": "2023-10-16T16:53:09.484Z"
+  },
+  "__v": 0
+}

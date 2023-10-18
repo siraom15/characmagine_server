@@ -8,6 +8,7 @@ import {
     Req,
     Patch,
     Put,
+    Param,
     HttpException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,6 +16,9 @@ import { StoryService } from './story.service';
 import { CreateStoryDto } from './dtos/create-story';
 import { UpdateStoryDto } from './dtos/update-story';
 import { Public } from 'src/auth/decorator/public.decorator';
+import { Story } from './schemas/story.schema';
+import { CreateCharacterDto } from 'src/character/dtos/create-character';
+import { UpdateCharacterDto } from 'src/character/dtos/update-character';
 
 @ApiTags('story')
 @Controller('api/story')
@@ -24,7 +28,8 @@ export class StoryController {
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() dto: CreateStoryDto, @Req() req) {
-        return await this.storyService.create(req.user.id, dto);
+        const userId = req.user.id;
+        return await this.storyService.create(userId, dto);
     }
 
     // Get public story
@@ -35,28 +40,62 @@ export class StoryController {
     }
 
     @Get('/id/:id')
-    async findOneById(@Req() req) {
-        let stories = await this.storyService.findOneById(req.params.id);
+    @Public()
+    async findOneById(@Req() req, @Param('id') storyId: string) {
+        const userId = req.user?.id || null;
 
-        if (!stories.isPublic && stories.owner._id != req.user.id) {
-            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-        }
+        let stories = await this.storyService.findOneById(storyId);
+
+        this.checkReadAccess(stories, userId);
 
         return stories;
     }
 
     @Get('/mystory')
     async findMyStory(@Req() req) {
-        return await this.storyService.findMyStory(req.user.id);
+        const userId = req.user.id;
+        return await this.storyService.findMyStory(userId);
     }
 
     @Patch('/id/:id')
-    async update(@Req() req, @Body() dto: UpdateStoryDto) {
-        let stories = await this.storyService.findOneById(req.params.id);
+    async update(@Req() req, @Body() dto: UpdateStoryDto, @Param('id') storyId: string) {
+        let stories = await this.storyService.findOneById(storyId);
 
-        if (stories.owner._id != req.user.id) {
+        this.checkUpdateAccess(stories, req.user.id);
+
+        return await this.storyService.update(req.params.id, dto);
+    }
+
+    @Post(':storyId/characters')
+    async addCharacterToStory(
+        @Param('storyId') storyId: string,
+        @Body() createCharacterDto: CreateCharacterDto
+    ) {
+        return this.storyService.addCharacterToStory(storyId, createCharacterDto);
+    }
+
+    // Update character in story
+    @Put(':storyId/characters/:characterId')
+    async updateCharacterInStory(
+        @Param('storyId') storyId: string,
+        @Param('characterId') characterId: string,
+        @Body() updateCharacterDto: UpdateCharacterDto,
+    ) {
+        return this.storyService.updateCharacterInStory(storyId, characterId, updateCharacterDto);
+    }
+
+
+
+
+    private checkReadAccess(stories: Story, userId: string | null) {
+        if (!stories.isPublic && stories.owner._id !== userId) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
-        return await this.storyService.update(req.params.id, dto);
+    }
+
+    private checkUpdateAccess(stories: Story, userId: string) {
+        if (stories.owner._id !== userId) {
+            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }
     }
 }

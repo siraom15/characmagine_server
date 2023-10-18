@@ -1,0 +1,34 @@
+{
+    "_id": {
+      "$oid": "652d7701218e907f43db308f"
+    },
+    "owner": {
+      "$oid": "652d6a943958be21868a169c"
+    },
+    "name": "test",
+    "description": "1",
+    "image": "upddate test image url",
+    "created_at": {
+      "$date": "2023-10-16T17:43:22.409Z"
+    },
+    "updated_at": {
+      "$date": "2023-10-16T17:43:22.409Z"
+    },
+    "characters": [
+      {
+        "name": "allery",
+        "description": "a man with long hair, white skin, good boy",
+        "image": "hello",
+        "created_at": {
+          "$date": "2023-10-16T18:02:46.726Z"
+        },
+        "updated_at": {
+          "$date": "2023-10-16T18:02:46.726Z"
+        },
+        "_id": {
+          "$oid": "652d7b5470354a94e8d7c032"
+        }
+      }
+    ],
+    "__v": 0
+  }

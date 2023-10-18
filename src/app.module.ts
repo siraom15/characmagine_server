@@ -9,7 +9,6 @@ import { HealthModule } from './health/health.module';
 import { MailModule } from './mail/mail.module';
 import { ImageAiModule } from './image-ai/image-ai.module';
 import { StoryModule } from './story/story.module';
-import { CharacterModule } from './character/character.module';
 
 @Module({
   imports: [
@@ -23,7 +22,6 @@ import { CharacterModule } from './character/character.module';
     MailModule,
     StoryModule,
     ImageAiModule,
-    CharacterModule,
   ],
   controllers: [],
   providers: [

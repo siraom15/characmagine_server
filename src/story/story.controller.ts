@@ -29,41 +29,35 @@ export class StoryController {
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() dto: CreateStoryDto, @Req() req) {
         const userId = req.user.id;
-        return await this.storyService.create(userId, dto);
+        return this.storyService.create(userId, dto);
     }
 
-    // Get public story
     @Get('/public')
     @Public()
     async findAllPublic() {
-        return await this.storyService.findAllPublic();
+        return this.storyService.findAllPublic();
     }
 
     @Get('/id/:id')
     @Public()
     async findOneById(@Req() req, @Param('id') storyId: string) {
         const userId = req.user?.id || null;
-
-        let stories = await this.storyService.findOneById(storyId);
-
+        const stories = await this.storyService.findOneById(storyId);
         this.checkReadAccess(stories, userId);
-
         return stories;
     }
 
     @Get('/mystory')
     async findMyStory(@Req() req) {
         const userId = req.user.id;
-        return await this.storyService.findMyStory(userId);
+        return this.storyService.findMyStory(userId);
     }
 
     @Patch('/id/:id')
     async update(@Req() req, @Body() dto: UpdateStoryDto, @Param('id') storyId: string) {
-        let stories = await this.storyService.findOneById(storyId);
-
+        const stories = await this.storyService.findOneById(storyId);
         this.checkUpdateAccess(stories, req.user.id);
-
-        return await this.storyService.update(req.params.id, dto);
+        return this.storyService.update(req.params.id, dto);
     }
 
     @Post(':storyId/characters')
@@ -74,7 +68,6 @@ export class StoryController {
         return this.storyService.addCharacterToStory(storyId, createCharacterDto);
     }
 
-    // Update character in story
     @Put(':storyId/characters/:characterId')
     async updateCharacterInStory(
         @Param('storyId') storyId: string,
@@ -83,9 +76,6 @@ export class StoryController {
     ) {
         return this.storyService.updateCharacterInStory(storyId, characterId, updateCharacterDto);
     }
-
-
-
 
     private checkReadAccess(stories: Story, userId: string | null) {
         if (!stories.isPublic && stories.owner._id !== userId) {

@@ -17,8 +17,8 @@ import { CreateStoryDto } from './dtos/create-story';
 import { UpdateStoryDto } from './dtos/update-story';
 import { Public } from 'src/auth/decorator/public.decorator';
 import { Story } from './schemas/story.schema';
-import { CreateCharacterDto } from 'src/character/dtos/create-character';
-import { UpdateCharacterDto } from 'src/character/dtos/update-character';
+import { CreateCharacterDto } from './character/dtos/create-character';
+import { UpdateCharacterDto } from './character/dtos/update-character';
 
 @ApiTags('story')
 @Controller('api/story')

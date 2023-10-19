@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { CreateStoryDto } from './dtos/create-story';
 import { Story } from './schemas/story.schema';
 import { UpdateStoryDto } from './dtos/update-story';
-import { CreateCharacterDto } from 'src/character/dtos/create-character';
-import { UpdateCharacterDto } from 'src/character/dtos/update-character';
+import { CreateCharacterDto } from './character/dtos/create-character';
+import { UpdateCharacterDto } from './character/dtos/update-character';
 
 @Injectable()
 export class StoryService {

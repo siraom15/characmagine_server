@@ -1,8 +1,8 @@
 import mongoose, { Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'src/user/schemas/user.schemas';
-import { Character, CharacterSchema } from '../../character/schemas/character.schema';
 import { Type } from 'class-transformer';
+import { Character, CharacterSchema } from '../character/schemas/character.schema';
 
 @Schema()
 export class Story extends Document {
@@ -26,6 +26,9 @@ export class Story extends Document {
 
   @Prop({ type: [CharacterSchema], default: [] })
   characters: Character[];
+
+  @Prop()
+  chapters: string[];
 
   @Prop({ required: true, default: () => new Date() })
   created_at: Date;

@@ -77,14 +77,30 @@ export class StoryController {
         return this.storyService.updateCharacterInStory(storyId, characterId, updateCharacterDto);
     }
 
-    private checkReadAccess(stories: Story, userId: string | null) {
-        if (!stories.isPublic && stories.owner._id.toString() !== userId) {
+    private checkStoryExist(stories: Story | null): void {
+        if (!stories) {
+            throw new HttpException('Story not found', HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private isOwner(stories: Story, userId: string): boolean {
+        return stories.owner._id.toString() === userId;
+    }
+
+    private isPublic(stories: Story): boolean {
+        return stories.isPublic;
+    }
+
+    private checkReadAccess(stories: Story | null, userId: string | null): void {
+        this.checkStoryExist(stories);
+        if (!this.isPublic(stories) && !this.isOwner(stories, userId)) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
     }
 
-    private checkUpdateAccess(stories: Story, userId: string) {
-        if (stories.owner._id.toString() !== userId) {
+    private checkUpdateAccess(stories: Story | null, userId: string): void {
+        this.checkStoryExist(stories);
+        if (!this.isOwner(stories, userId)) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
     }

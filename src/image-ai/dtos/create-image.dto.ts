@@ -18,7 +18,7 @@ export class CreateImageDto {
     @ApiProperty()
     @IsOptional()
     @IsNumber()
-    @Max(100)
+    @Max(1000)
     @Min(0)
     steps: number;
 }

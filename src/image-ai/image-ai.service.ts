@@ -5,7 +5,7 @@ import axios from 'axios';
 
 @Injectable()
 export class ImageAiService {
-    async getImageBase64(createImageDto: CreateImageDto): Promise<string> {
+    async generateCharacter(createImageDto: CreateImageDto): Promise<string> {
         const url = process.env.AI_API_BASE_URL;
 
         if (!createImageDto.prompt) {
@@ -19,11 +19,13 @@ export class ImageAiService {
 
         const headers = {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + process.env.AI_API_KEY,
+            Authorization: 'Bearer ' + process.env.API_TOKEN,
         };
         try {
             const response = await axios.post(url, payload, { headers });
-            const base64String = response.data.images[0];
+            console.log(response);
+            
+            const base64String = await response.data.images[0];
             return base64String;
         } catch (error) {
             console.error('Error:', error);
